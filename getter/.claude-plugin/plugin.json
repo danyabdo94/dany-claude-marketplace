@@ -1,0 +1,5 @@
+{
+  "name": "getter",
+  "description": "Gather data from external sources — Jira, Confluence, GitLab, GitHub, Slack, the web — via cheap Haiku courier subagents that fetch and return raw facts, keeping the expensive main loop out of the fetch grind. Use when the user asks to gather or look up information living in an external source (a ticket, MR/PR, page, thread, or URL).",
+  "version": "1.1.0"
+}
