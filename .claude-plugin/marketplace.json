@@ -1,0 +1,24 @@
+{
+  "name": "dany-claude-marketplace",
+  "owner": {
+    "name": "Dany Kamel"
+  },
+  "metadata": {
+    "description": "Dany's personal Claude Code plugins: external fetching via couriers and general workflow skills.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "getter",
+      "source": "./plugins/getter",
+      "description": "Fetch anything outside the repo (Jira, Confluence, GitLab, GitHub, Slack, URLs) through cheap read-only Haiku couriers.",
+      "version": "1.1.1"
+    },
+    {
+      "name": "dany-skills",
+      "source": "./plugins/dany-skills",
+      "description": "General-purpose skills: plain-code rules, grilling, handoff, in-1-line, teach, writing-great-skills, add-my-flavor. Plus the flavor, review-finder and review-verifier agents.",
+      "version": "1.0.0"
+    }
+  ]
+}

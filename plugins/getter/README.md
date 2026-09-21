@@ -5,7 +5,7 @@ A Claude Code plugin that gathers data from external sources — Jira, Confluenc
 ## Features
 
 - **One courier per source, dispatched in a single message** — a three-source ask fetches in parallel, not in sequence
-- **Read-only by construction** — couriers run as the `courier` agent with mutation tools stripped at the tool boundary (`Write`, `Edit`, `NotebookEdit`, `Artifact`, further agent spawning), not merely instructed to behave
+- **Read-only by construction** — couriers run as the `getter:courier` agent with mutation tools stripped at the tool boundary (`Write`, `Edit`, `NotebookEdit`, `Artifact`, further agent spawning), not merely instructed to behave
 - **Raw facts, verbatim** — IDs, titles, statuses, bodies, authors, dates, links; no analysis or recommendations from the courier, so the main loop reasons over unedited source text
 - **Gaps stay gaps** — an inaccessible source is reported as "courier could not access X", never filled in from memory
 - **Identifiers resolved up front** — a missing ID is inferred where possible (e.g. from the branch name) or asked about *before* dispatching, not after
@@ -42,8 +42,10 @@ pull the comments on MR !59 and the acceptance criteria from the linked ticket
 **3. Direct courier delegation** — for one known source, when you don't need the full map-dispatch-relay flow:
 
 ```
-use the courier agent to fetch the last 30 comments on GitLab MR !59
+use the getter:courier agent to fetch the last 30 comments on GitLab MR !59
 ```
+
+The agent is registered under the plugin namespace, so its `subagent_type` is `getter:courier` — a bare `courier` is not a valid agent name.
 
 **Examples:**
 
@@ -54,6 +56,29 @@ use the courier agent to fetch the last 30 comments on GitLab MR !59
 | `/getter what's the state of my current ticket` | Infers the ID from the branch name (`feature/IN-1915-…`); asks first if it can't |
 | `/getter summarise <confluence url> and <blog url>` | Confluence courier via MCP, the blog via `WebFetch` |
 | `/getter compare our config to what the upstream repo does` | GitHub courier via `gh api`, falling back to `curl` on public repos |
+
+## Making it trigger every time
+
+Skill triggering is the model's judgment call on the description, not a guarantee, and it varies by model. Fable 5 picked `getter` up implicitly; Fable 5.1 is tighter about scope and will often call the Atlassian or GitLab tool straight from the main loop instead, especially when the fetch is only step one of a bigger task ("check this ticket, create branch, implement, mr").
+
+If you want it to fire every time, say so in your `CLAUDE.md` (user-level `~/.claude/CLAUDE.md`, or the repo's):
+
+```markdown
+## Fetching from Jira / GitLab / Confluence / Slack
+
+Whenever a request names or links something outside the repo (a Jira ticket ID
+or URL, an MR/PR number or link, a Confluence page, a Slack thread, a plain web
+page), load the `getter` skill and fetch through its couriers. This is not
+optional and does not need to be asked for.
+
+It applies even when the fetch is only the first step of a bigger task
+("check this ticket, create branch, implement, mr"). The fetch still goes
+through a courier, then you continue with what it brings back. Do not call the
+Atlassian / Slack / GitLab tools straight from the main loop just because the
+task is mostly about something else: that is the case the skill exists for.
+```
+
+An instruction beats a description, because the model reads it as a rule rather than as an option. `/getter` always works as the explicit escape hatch.
 
 ## What it deliberately won't do
 
