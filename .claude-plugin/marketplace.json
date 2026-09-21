@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Dany's personal Claude Code plugins: external fetching via couriers and general workflow skills.",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -17,8 +17,8 @@
     {
       "name": "dany-skills",
       "source": "./plugins/dany-skills",
-      "description": "General-purpose skills: plain-code rules, grilling, handoff, in-1-line, teach, writing-great-skills, add-my-flavor. Plus the flavor, review-finder and review-verifier agents.",
-      "version": "1.0.0"
+      "description": "General-purpose skills: plain-code rules, grilling, handoff, in-1-line, teach, writing-great-skills, add-my-flavor, jira-ticket, qa-test. Plus the flavor, review-finder, review-verifier and qa-ticket agents.",
+      "version": "1.1.0"
     }
   ]
 }

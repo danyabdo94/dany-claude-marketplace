@@ -33,12 +33,15 @@ Skills:
 - **teach** — Teach a skill or concept over multiple sessions, using the current directory as a stateful workspace.
 - **writing-great-skills** — Reference for writing and editing skills well.
 - **add-my-flavor** — Rewrite any outward-facing draft in Dany's voice. Runs in the `dany-skills:flavor` agent so the pass stays on Haiku.
+- **jira-ticket** — What goes in a Jira ticket: one-line title, facts not assumptions, P0/P1/P2 QA scenarios as ADF in your QA notes field, `What ships` as a comment once the MR exists. Plus what Jira renders from markdown. Bring your own cloudId and project key.
+- **qa-test** — QA pass over one or more MRs, one `dany-skills:qa-ticket` agent per ticket. Distrusts handoffs, rebuilds the harness, fetches ACs verbatim, and pins guarantees with mutation probes. Bundles a read-only environment verifier; you supply a per-repo reference file.
 
 Agents (all read-only, model pinned in the definition):
 
 - **flavor** — Haiku. Rewrites one draft and returns the text.
 - **review-finder** — Sonnet. One dimension of a code review, candidate findings only.
 - **review-verifier** — Haiku. Tries to disprove one review finding against the real code.
+- **qa-ticket** — Opus. Runs the QA pass for one MR and reports. Edit and Write removed, never fixes, commits or touches an MR.
 
 ## Layout
 
