@@ -46,8 +46,8 @@ nothing. *Example:*
 
 ```
 app syncs permissions
-  -> PermissionService.setPermission
-    -> disableTopicIfNotAllowed  (turns the matching topic off)
+  -> RightsChecker.setPermission
+    -> muteTopicWithoutRight  (turns the matching topic off)
       -> the send path sees topic.active == false and skips
 ```
 
@@ -65,9 +65,9 @@ One table per repo.
 | Concern | File |
 | --- | --- |
 | `<concern>` | `<path>` |
-| *example* Plan and rights, one place | `lib/features/core/util/feature_gates.dart` |
-| *example* The mirror the app syncs | `lib/features/sync/sync_bloc.dart`, `_sync` |
-| *example* Push tap routing | `lib/features/message/notification_router.dart` |
+| *example* Plan and rights, one place | `lib/features/core/util/gates.dart` |
+| *example* The mirror the app syncs | `lib/features/sync/settings_sync.dart`, `_sync` |
+| *example* Push tap routing | `lib/features/message/push_router.dart` |
 
 Notes that are not visible from the table, for example: "the app does no
 filtering of the list, every list guard has to be server side".
@@ -77,9 +77,9 @@ filtering of the list, every list guard has to be server side".
 | Concern | File |
 | --- | --- |
 | `<concern>` | `<path>` |
-| *example* The list, both counts, read and delete | `controller/NotificationController.kt` |
-| *example* The permission mirror | `service/PermissionService.kt` |
-| *example* Topics and the push subscription | `service/TopicService.kt` |
+| *example* The list, both counts, read and delete | `controller/InboxController.kt` |
+| *example* The permission mirror | `service/RightsChecker.kt` |
+| *example* Topics and the push subscription | `service/TopicRegistry.kt` |
 
 ### `<backend repo>`
 

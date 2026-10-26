@@ -29,11 +29,11 @@ curl -H "$B" -G "$H/locations" -d locationId=4242 -d account=qa.user+2@example.c
 
 ```bash
 curl -X POST "$H/reviews" -H "$B" -H 'Content-Type: application/json' \
-  -d '{"locationId":4242,"reviewData":[{"id":"PROBE-1","type":"REVIEW","directory":"GOOGLE","rating":"5"}],"waitUntilFinish":true}'
+  -d '{"locationId":4242,"reviewData":[{"id":"PROBE-1","type":"REVIEW","directory":"GOOGLE","rating":"5"}],"awaitSend":true}'
 # 200. Badge after: 172. Flat.
 ```
 
-The first attempt used the reporter's own `"waitUntilFinish": false` and returned `202` in
+The first attempt used the reporter's own `"awaitSend": false` and returned `202` in
 milliseconds. That `202` meant nothing: the work runs after the response.
 
 **Split the axis, then control.** Probed a second location of the same account, then all four
@@ -49,11 +49,11 @@ Tallying `account=`: `qa.user+11@` got 45 and `qa.other+7@` got 15 on the same l
 `+2` got zero. The pipeline is healthy. One account is blocked. Different ticket.
 
 **Discriminate.** Two causes left: permission row false, or topic switched off. The counter
-`message_dropped_total{status="permission"}` increments only inside `isAllowedToSend`, so only the
-permission gate can move it. It ran 2 to 46 over the morning. And `topic_new_review_total{active="false"}`
+`push_dropped_total{status="permission"}` increments only inside `isAllowedToSend`, so only the
+permission gate can move it. It ran 2 to 46 over the morning. And `topic_review_total{active="false"}`
 ticked 5 to 6 between 10:40 and 10:42 UTC, three minutes after the account's last working push.
 
-Permission went false first, `disableTopicIfNotAllowed` switched the topic off behind it, and
+Permission went false first, `muteTopicWithoutRight` switched the topic off behind it, and
 `setMainTopic` then refuses to switch it back on, so the user cannot recover from the app. The same
 kind of indirect chain is described in the `notification-ticket` skill's `references/guards.md`.
 
@@ -68,16 +68,16 @@ Here the two witnesses disagree, which is the whole finding.
 **Probe.** One review, synchronous, then read both:
 
 ```bash
-curl -H "accessToken: $T" "$H/bff/notifications?max=10"
+curl -H "accessToken: $T" "$H/api/inbox?max=10"
 curl -H "$B" -G "$H/locations" -d locationId=... -d account=...
 ```
 
 **Read the pair.** Badge moved, list still empty. By the table in `signals.md` that is the
-**read filter**, not the send gate: the row was written and `NotificationVisibility.allowedTypes` hides
+**read filter**, not the send gate: the row was written and `InboxFilter.visibleTypes` hides
 it from this caller.
 
 **Discriminate.** `NEW_REVIEW` needs right `INBOX_READ` and a plan selling `INBOX`.
-`GET /bff/users/me` with the same token says which the caller holds. `notification_filtered_total{type="new_review"}`
+`GET /api/me` with the same token says which the caller holds. `inbox_filtered_total{type="review"}`
 confirms the gate fired on that request rather than the row simply not existing.
 
 Restore the right and re-read: the rows come back, because the filter hides and never deletes. That is

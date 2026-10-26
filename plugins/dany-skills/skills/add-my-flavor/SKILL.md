@@ -89,9 +89,9 @@ Keep every identifier, URL, code span and number from the source. Change wording
 - Keep asks **specific and actionable** ("do bundles realistically exceed 256KB in prod?") rather than vague ("any thoughts?"). Aim for 3 short paragraphs max.
 - **Close a scary update by naming what is not on fire.**
 
-**Slack links and markup.** Slack renders mrkdwn, not markdown. Every MR, commit, ticket or page mentioned gets a link with the id as its text: `<https://gitlab.com/.../merge_requests/232|!232>`, `<https://gitlab.com/.../commit/<full sha>|8120fc1>`, `<https://uberall.atlassian.net/browse/MOB-1675|MOB-1675>`. Never a bare id, never `[text](url)`. Bold is `*text*` (single asterisks), inline code stays in backticks. Dany asked for this on 2026-09-08.
+**Slack links and markup.** Slack renders mrkdwn, not markdown. Every MR, commit, ticket or page mentioned gets a link with the id as its text: `<https://git.example.com/.../merge_requests/232|!232>`, `<https://git.example.com/.../commit/<full sha>|8120fc1>`, `<https://jira.example.com/browse/PROJ-1675|PROJ-1675>`. Never a bare id, never `[text](url)`. Bold is `*text*` (single asterisks), inline code stays in backticks. Dany asked for this on 2026-09-08.
 
-**Slack mentions use the user ID, never typed text.** A plain `@sara` is just text in Slack and does not tag anyone. Write `<@UXXXXXXXXXX>` (the roster in the `send-slack` skill has every ID). If you don't know the ID, keep the person's first name without `@` and say so to Dany. The `@name` in the examples in this file is a placeholder for that form.
+**Slack mentions use the user ID, never typed text.** A plain `@jo` is just text in Slack and does not tag anyone. Write `<@UXXXXXXXXXX>` (the roster in the `send-slack` skill has every ID). If you don't know the ID, keep the person's first name without `@` and say so to Dany. The `@name` in the examples in this file is a placeholder for that form.
 
 **Structure.** Bullets are `•`, nested `◦`, not `-`. Numbered lists in Jira, comments and descriptions alike, are real `1.` `2.` `3.` lists, because Jira renders them. Older samples in `references/` still show `1-`: keep the voice, not that numbering. A `CC:` line at the end carries the people who need visibility but no action, sometimes `CC: @X @Y FYI`.
 
@@ -124,12 +124,12 @@ Keep every identifier, URL, code span and number from the source. Change wording
 ## Worked example: warm register
 
 **Before (too long, ask buried, stiff, em dashes everywhere):**
-> Hi Ruben. In MobileEventHandlerService.enqueueMobileNotificationMessage we serialize a location's reviewData into a single SQS message. The recent enrichment added the full review data text (mapped as TEXT, no length cap). SQS caps a message at 256KB, and the sendMessage call is wrapped in a try/catch that just logs FAILED, so if a location's bundle exceeds 256KB the whole batch is silently dropped. I was going to add logic to bin-pack reviewData into sub-256KB messages, but I wanted to check a few things first. Please advise.
+> Hi Alex. In PushEventHandler.enqueueMessage we serialize a store's reviewData into a single SQS message. The recent enrichment added the full review data text (mapped as TEXT, no length cap). SQS caps a message at 256KB, and the sendMessage call is wrapped in a try/catch that just logs FAILED, so if a store's bundle exceeds 256KB the whole batch is silently dropped. I was going to add logic to bin-pack reviewData into sub-256KB messages, but I wanted to check a few things first. Please advise.
 
 **After (flavored):**
-> Hey @ruben! :pray: Quick backend gut-check on MOB-1583 when you've got a sec. Want to make sure I build the right thing here (or nothing at all).
+> Hey @alex! :pray: Quick backend gut-check on PROJ-1583 when you've got a sec. Want to make sure I build the right thing here (or nothing at all).
 >
-> **The risk:** we now pack full review text into a single SQS message in `MobileEventHandlerService`, and the send just logs `FAILED` on error. So if a location's bundle ever crosses **256KB**, the whole batch of notifications gets silently dropped :grimacing:
+> **The risk:** we now pack full review text into a single SQS message in `PushEventHandler`, and the send just logs `FAILED` on error. So if a store's bundle ever crosses **256KB**, the whole batch of notifications gets silently dropped :grimacing:
 >
 > **The call:** do these bundles realistically get that big in prod, or should I just add a guard + log instead of building the message-splitting? Don't want to over-engineer if it can't actually happen :slightly_smiling_face:
 
@@ -141,7 +141,7 @@ Same person, different hat. Not colder, just shorter. One thought, phrased as a 
 > Maybe we should reload notifications when a push comes in? Not sure about rapid ones.
 
 **Flavored:**
-> can we reload the list when a notification comes from Firebase? :eyes:
+> can we reload the list when a push comes in? :eyes:
 >
 > and cancel the previous request each time a new one lands, otherwise two pushes a second apart fire overlapping reloads and we might render the older one.
 
@@ -150,14 +150,14 @@ Two lines. If the finding genuinely needs a failure path spelled out, use the lo
 ## Worked example: ticket description
 
 **Before (facts right, shape wrong: a `TL;DR:` label, prose paragraphs, `1-` numbering that Jira leaves as text, `:eyes:` that renders literally, em dashes):**
-> TL;DR: nothing filters the list, on any path. The rights we need arrive on every request already — mobile-service calls GET /api/users/me to resolve the caller and keeps only the email. Keep the features, read the plan access too, and filter the three read queries on the allowed notification types. :eyes:
+> TL;DR: nothing filters the list, on any path. The rights we need arrive on every request already — api-service calls GET /me to resolve the caller and keeps only the email. Keep the features, read the plan access too, and filter the three read queries on the allowed notification types. :eyes:
 >
 > Scope, two MRs:
-> 1- upstream first: hand-written identity DTO instead of the generated User model, GET /api/users/me and GET /api/features/access called concurrently, cached (identity 60 s by hashed token, plan 10 min by user), connect and response timeouts
-> 2- the filter: resolveCaller returns email plus allowedTypes; NotificationType enum with requiredRight; type IN (:types) on the page query and both counts
+> 1- upstream first: hand-written identity DTO instead of the generated User model, GET /me and GET /plan called concurrently, cached (identity 60 s by hashed token, plan 10 min by user), connect and response timeouts
+> 2- the filter: the caller lookup returns email plus allowedTypes; NotificationType enum with requiredRight; type IN (:types) on the page query and both counts
 >
 > Acceptance:
-> • no INBOX_2_0_BETA_READ: no new_review and no thrs_upd rows
+> • no REVIEWS_READ: no review and no thread_update rows
 > • neither right: empty list, totalCount 0, badge 0, no SQL error
 
 **After (flavored, and split the way `jira-ticket` splits it):**
@@ -167,7 +167,7 @@ Two lines. If the finding genuinely needs a failure path spelled out, use the lo
 >
 > ## Context
 >
-> The rights we need already arrive on every request: mobile-service calls `GET /api/users/me` to resolve the caller and keeps only the email.
+> The rights we need already arrive on every request: api-service calls `GET /me` to resolve the caller and keeps only the email.
 >
 > ## Requirements
 >
@@ -176,20 +176,20 @@ Two lines. If the finding genuinely needs a failure path spelled out, use the lo
 >
 > ## Open questions
 >
-> 1. Does the plan check need to survive offline, or is a stale cached list acceptable? Ruben would know.
+> 1. Does the plan check need to survive offline, or is a stale cached list acceptable? Alex would know.
 
 *QA Testing Notes (flat lines, sent as ADF, see `jira-ticket`):*
-> Setup: staging, account with no INBOX_2_0_BETA_READ right.
+> Setup: staging, account with no REVIEWS_READ right.
 >
-> P0 - open the notification list: no new_review and no thrs_upd rows, totalCount and unreadCount match the list.
+> P0 - open the notification list: no review and no thread_update rows, totalCount and unreadCount match the list.
 > P0 - revoke both rights and reopen: empty list, totalCount 0, badge 0, no error toast.
-> P1 - grant the right in the backoffice and reopen: rows appear, badge matches the row count.
+> P1 - grant the right in the admin panel and reopen: rows appear, badge matches the row count.
 
 *Comment, once the MR is open:*
 > ## What ships
 >
 > 1. Hand-written identity model instead of the generated `User` model, so an unknown enum value cannot break the call.
-> 2. `GET /api/users/me` and `GET /api/features/access` called together and cached: identity 60 s by hashed token, plan 10 min by user.
+> 2. `GET /me` and `GET /plan` called together and cached: identity 60 s by hashed token, plan 10 min by user.
 > 3. `type IN (:types)` on the page query and on both counts. An empty allowlist returns an empty page before any SQL runs.
 >
 > Not in scope: the client-side badge animation.

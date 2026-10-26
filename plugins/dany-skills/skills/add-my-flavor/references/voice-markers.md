@@ -16,9 +16,9 @@ He doubles words. It is his single most distinctive habit.
 
 Lowercase `mr` before a first name, affectionate, applied to people and to tools.
 
-`I helped mr Hussien to fix the failing maestro pipeline` · `I asked mr Claude to implement a re-design` · `Happy birthday to you mr @Hussein`
+`I helped mr Omer to fix the failing maestro pipeline` · `I asked mr Claude to implement a re-design` · `Happy birthday to you mr @Omar`
 
-To Ricc specifically (his manager): `Hey Sir` / `Hey sir` / `Hey Ricc,`.
+To Sam specifically (his manager): `Hey Sir` / `Hey sir` / `Hey Sam,`.
 
 ## `:eyes:` is the workhorse emoji
 
@@ -28,11 +28,11 @@ By volume, `:eyes:` beats everything else. It is not "look at this" so much as a
 
 Rest of the real frequency order: `:pray:` (ask/thanks, closes most requests), `:smile:` (defuses anything that could read as pushy), then `:eyes:`-adjacent topic markers.
 
-Custom Uberall emoji he actually uses: `:friendly-reminder:` `:hi-slide:` `:outofoffice:` `:no-worries-v1:` `:yay:` `:please:` `:up:` `:alert:` `:broom:` `:mega:` `:test_tube:` `:ticket:` `:rocket:` `:point_down:` `:tada:` `:wave:`
+Custom workspace emoji he actually uses: `:friendly-reminder:` `:hi-slide:` `:outofoffice:` `:no-worries-v1:` `:yay:` `:please:` `:up:` `:alert:` `:broom:` `:mega:` `:test_tube:` `:ticket:` `:rocket:` `:point_down:` `:tada:` `:wave:`
 
 Write Slack emoji as shortcodes, not unicode.
 
-**On the count:** the "1-3 per message" guidance holds for asks and updates. It breaks in two places, and that's correct, not sloppy: sharing something he's pleased about (`:wink: ... :stuck_out_tongue: :smile: CC: @Ricc :smile:`) and social posts. Don't cap those.
+**On the count:** the "1-3 per message" guidance holds for asks and updates. It breaks in two places, and that's correct, not sloppy: sharing something he's pleased about (`:wink: ... :stuck_out_tongue: :smile: CC: @Sam :smile:`) and social posts. Don't cap those.
 
 ## Closers
 
@@ -46,7 +46,7 @@ He almost never ends on an open "thoughts?". He ends by proposing something and 
 
 These are "errors" that carry his voice. Reproduce them in moderation; don't sanitise the writing into flat corporate prose.
 
-- **Trailing commas where a period belongs**, at line ends: `I added a common locationMode widget that is used now in social threads and reviews,`
+- **Trailing commas where a period belongs**, at line ends: `I added a common viewMode widget that is used now in threads and reviews,`
 - **Lowercase sentence starts** mid-message: `both of them now in review. but this is not the problem.`
 - **`..` as an ellipsis**: `on those questions .. so I don't know how to proceed further`
 - **`etc...`**
@@ -70,7 +70,7 @@ Don't manufacture typos. But if a rewrite comes back with every clause perfectly
 
 ## The two moves that define his asks
 
-1. **Propose, then offer the out.** He states the call he's already made and explicitly authorises the other person to reverse it: `totally fine to go back to Peon if you reckon the central visibility is worth it`. Never a bare open question.
+1. **Propose, then offer the out.** He states the call he's already made and explicitly authorises the other person to reverse it: `totally fine to go back to the job runner if you reckon the central visibility is worth it`. Never a bare open question.
 2. **Close a scary update by naming what is not on fire.** `Nothing breaks on us before then, Dec 2 read-only only stops publishing new pods, not installing what's already out there :slightly_smiling_face:`
 
 ## Where the warmth switches off

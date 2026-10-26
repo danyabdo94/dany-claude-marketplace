@@ -2,7 +2,7 @@
 
 **Fill this in for your stack.** Every `<placeholder>` is a value from your own services: hosts,
 paths, credentials, Prometheus jobs and labels, Loki labels, metric names, database names. The names
-that are not in angle brackets (`message_dropped_total`, `NotificationService.list` and so on) are an
+that are not in angle brackets (`push_dropped_total`, `InboxService.list` and so on) are an
 example from one notification service, kept so the reasoning is easy to follow. Swap them for yours.
 Write the date you read it out of a live investigation, and re-check a name before trusting it.
 
@@ -34,14 +34,14 @@ last step of an investigation often ends at a database query rather than an HTTP
 
 Rank yours by closeness to what the user is missing. Reach for the first one you can authenticate.
 
-**1. The notification row itself.** `<GET /bff/notifications>` with `<user auth header>`, and
-`<GET /bff/notifications/unread-count>` beside it. This is the list the user says is empty, so it is the
+**1. The notification row itself.** `<GET /api/inbox>` with `<user auth header>`, and
+`<GET /api/inbox/unread-count>` beside it. This is the list the user says is empty, so it is the
 real witness. The token comes from `<login endpoint>` or out of the app. Note which auth the endpoint
 refuses (in the example, the service credential gets `401` here).
 
 **2. A per-subject counter on the send path,** for example `location.badge` read through
 `<GET /locations>` with the service credential. The proxy to use when you have no user token. In the
-example, `ReviewService.processNewReview` ends with `badgeService.incAccountsBadge`, which runs *after*
+example, `ReviewHandler.processNewReview` ends with `badgeService.incAccountsBadge`, which runs *after*
 `notificationService.recordForAccounts`, so the badge moving proves a row was written. Per-account and
 database backed, therefore consistent across pods.
 
@@ -51,7 +51,7 @@ database backed, therefore consistent across pods.
 
 Witnesses 1 and 2 sit on **opposite sides of the read filter**, which is what makes them worth reading
 together. The badge is written on the send path and is not filtered by rights or plan.
-`NotificationService.list` filters on `NotificationVisibility.allowedTypes`, from the caller's live
+`InboxService.list` filters on `InboxFilter.visibleTypes`, from the caller's live
 rights and plan. So one probe and two reads:
 
 | Badge | List | The break is |
@@ -61,7 +61,7 @@ rights and plan. So one probe and two reads:
 | flat | stays empty | the **send gate**: no row was ever written, so the filter never ran |
 
 The third line is where permission and topic gates live, and no amount of testing the list will reach
-it. Probe with `<the synchronous flag, e.g. "waitUntilFinish": true>` and a fresh unique id, so neither
+it. Probe with `<the synchronous flag, e.g. "awaitSend": true>` and a fresh unique id, so neither
 async timing nor a dedup unique index can explain a flat badge.
 
 ## Grafana
@@ -97,13 +97,13 @@ Scope every query with `<namespace="notify-service-dev">` or `<environment="deve
 
 | Metric | Increments when |
 | --- | --- |
-| `message_dropped_total{status="permission",type="review"}` | only inside `isAllowedToSend`, so **only the permission gate**, never the topic gate |
-| `topic_new_review_total{active="false"}` | a `new_reviews` topic is switched off. One tick per switch, so it timestamps the flip |
-| `message_review_total{success="true"\|"false"}` | one per device push attempt |
-| `notification_filtered_total{type=...}` | a read of the list hid a type. Empty means nobody called the list endpoint |
+| `push_dropped_total{status="permission",type="review"}` | only inside `isAllowedToSend`, so **only the permission gate**, never the topic gate |
+| `topic_review_total{active="false"}` | a `reviews` topic is switched off. One tick per switch, so it timestamps the flip |
+| `push_review_total{success="true"\|"false"}` | one per device push attempt |
+| `inbox_filtered_total{type=...}` | a read of the list hid a type. Empty means nobody called the list endpoint |
 
 In the example, the permission counter is the discriminator for "permission row false" versus "topic
-switched off by hand", because `disableTopicIfNotAllowed` makes a false permission also disable the
+switched off by hand", because `muteTopicWithoutRight` makes a false permission also disable the
 topic, but not the reverse.
 
 Write down every branch that drops a recipient with **no metric and no log**. In the example, a review

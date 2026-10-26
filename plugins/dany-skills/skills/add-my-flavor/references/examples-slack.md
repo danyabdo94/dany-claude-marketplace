@@ -12,9 +12,9 @@ Slack emoji are written as shortcodes (`:pray:`), not unicode. Keep it that way 
 
 > Hey Hey great team! :broom: Change of approach on the notification retention purge (<link>).
 >
-> It now runs inside mobile-service on a @Scheduled job + ShedLock (lock row in MySQL, so only 1 of our 3-5 replicas actually runs it). The Peon route was 4 hops (Peon > monolith > SQS > consumer) plus DevOps and CORE deps just to fire one daily DELETE, and it couldn't even tell us whether the purge worked.
+> It now runs inside the backend service on a scheduled job with a DB lock (so only 1 of our 3-5 replicas actually runs it). The job runner route was 4 hops (job runner > monolith > queue > consumer) plus DevOps and platform deps just to fire one daily DELETE, and it couldn't even tell us whether the purge worked.
 >
-> @Ruben it reverses your review call so it needs your sign-off before it lands :pray: totally fine to go back to Peon if you reckon the central visibility is worth it. WDYT?
+> @Alex it reverses your review call so it needs your sign-off before it lands :pray: totally fine to go back to the job runner if you reckon the central visibility is worth it. WDYT?
 
 Note `>` for arrows in prose, and that the disagreement is stated without softening while the decision is handed back.
 
@@ -22,7 +22,7 @@ Note `>` for arrows in prose, and that the disagreement is stated without soften
 
 `#eng-squad-mobile-internal`, 2026-07-31.
 
-> Hey Hey @Cliff @Hussein! :rocket: Phase 1 builds for the Notification Center are ready, Android APK + iOS simulator, both dropping in this thread :point_down:
+> Hey Hey @Chris @Omar! :rocket: Phase 1 builds for the Notification Center are ready, Android APK + iOS simulator, both dropping in this thread :point_down:
 >
 > Heads up: iOS is a simulator-only debug build, so it won't install on a physical iPhone. Both are development flavor on 3.2.0+201. Give the bell tab a poke when you've got a sec? :pray:
 
@@ -40,7 +40,7 @@ Note `>` for arrows in prose, and that the disagreement is stated without soften
 > ...
 > ```
 >
-> TL;DR: 4 of the 5 are just version bumps now, no forking needed. Pendo shipped SPM themselves, and the permission_handler / image_compress / fluttertoast PRs all landed. permission_handler needs the PERMISSION_* flags moved from the Podfile to env vars on top of the bump, so that one carries a bit of CI work.
+> TL;DR: 4 of the 5 are just version bumps now, no forking needed. The analytics SDK shipped SPM themselves, and the permission_handler / image_compress / fluttertoast PRs all landed. permission_handler needs the PERMISSION_* flags moved from the Podfile to env vars on top of the bump, so that one carries a bit of CI work.
 >
 > video_thumbnail is the only real blocker left. Upstream looks dormant (no commits in 14 months, SPM PR sitting unreviewed since May), so I set a checkpoint in 3 weeks (~Aug 19) to see if it moves. If not we fork or replace: the Package.swift work is already written in the open PR, so it's cheap either way.
 >
@@ -56,7 +56,7 @@ The closing line pre-empts the panic the update could cause. He does this a lot:
 > Im out today
 > • I moved the notification center ticket into review
 > • I moved the fix for iOS in review also
-> • I helped mr Hussien to fix the failing maestro pipeline
+> • I helped mr Omer to fix the failing maestro pipeline
 >
 > I leave you for a break day without noisy Danny
 
@@ -65,17 +65,17 @@ The closing line pre-empts the panic the update could cause. He does this a lot:
 `#ask-devops`, 2026-07-28. Warmth is the tool that makes the ask land on a team that owes him nothing.
 
 > Hey Hey great team
-> :ticket: I opened this DEVOPS-6521 for the Maestro CI MR (!1068).
+> :ticket: I opened this OPS-4521 for the Maestro CI MR (!1068).
 >
 > What's left is to review what we have implemented:
 > emulator tooling on the Mac Mini runner, the QA credential vars, etc...
 >
-> I assigned @Mauro Jr by default :stuck_out_tongue: with a friendly reminder that we are friends :smile:
+> I assigned @Kim Jr by default :stuck_out_tongue: with a friendly reminder that we are friends :smile:
 
 `#ask-backend`, 2026-06-26:
 
 > Hey Hey
-> I have opened my first-ever-ever Monolith MR :smile:  [On the datapoints domain]
+> I have opened my first-ever-ever Monolith MR :smile:  [On the reporting domain]
 > I need some help from you guys to help me :please: reviewing it :pray:
 > CC: @backend-group @platform-group
 
@@ -88,16 +88,16 @@ Short, never passive-aggressive, always with an emoji doing the softening. Full 
 
 > :friendly-reminder: <link>
 
-> @Ricc @Ruben a kind reminder :pray:
+> @Sam @Alex a kind reminder :pray:
 
 > Hey Hey any opinions? :eyes:
 
-> @Solmar any opinions? suggestions?
+> @Tom any opinions? suggestions?
 
 The polite/formal variant, for a channel outside the team where a bump could read as pushy (`#ask-devops`, 2026-08-06):
 
 > Hey everyone,  :hi-slide:
-> quick follow-up on this GitLab CI MR: DEVOPS-6521.
+> quick follow-up on this GitLab CI MR: OPS-4521.
 > It's been waiting for a review for a bit, so we'd really appreciate it if someone could take a look when you get a chance.
 > Thanks!
 
@@ -105,12 +105,12 @@ The polite/formal variant, for a channel outside the team where a bump could rea
 
 `#alerts-eng-mobile`, 2026-07-24. Proposal as a concrete draft, then `WDYT?`. He never asks "how should we handle this".
 
-> @Ricc @Sara I think we need to iterate on reviewing and validating them,, we can make a schedule like:
+> @Sam @Jo I think we need to iterate on reviewing and validating them,, we can make a schedule like:
 > • Monday [Dany]
-> • Tuesday [Sara]
-> • Wednesday [Ricc]
+> • Tuesday [Jo]
+> • Wednesday [Sam]
 > • Thursday [Dany]
-> • Friday [Sara]
+> • Friday [Jo]
 >
 > WDYT?
 
@@ -118,19 +118,19 @@ The polite/formal variant, for a channel outside the team where a bump could rea
 
 `#eng-squad-mobile-internal`, 2026-04-27. States the decision he's already leaning to, then asks for a veto.
 
-> Hey @Ricc @Cliff
-> I think we need to prioritize this ticket MOB-1476
+> Hey @Sam @Chris
+> I think we need to prioritize this ticket PROJ-1476
 >
-> specially after we implemented AG-UI integration with Social Post,
+> specially after we implemented AI integration with the post editor,
 > I will pull it to the sprint instead of this the confirm before leaving ticket, IMHO it has more priority. Okay? :eyes:
 
 ## Asking for a favour
 
 `#eng-squad-mobile-internal`, 2026-05-19. Ask first, reason last.
 
-> Hey Hey @Cliff @Sara @Ricc do you mind moving the grooming meeting earlier today?
+> Hey Hey @Chris @Jo @Sam do you mind moving the grooming meeting earlier today?
 > [2PM Berlin time, 8AM EST] ==> in 45 Mins? :eyes:
-> optional @Hussein
+> optional @Omar
 >
 > I need to go do some errands today on 5PM my time, and I can see there is an empty slot for us :pray:
 
@@ -143,21 +143,21 @@ The polite/formal variant, for a channel outside the team where a bump could rea
 >
 > I always use it while collecting data, not to use Opus for this small courier stuff.
 >
-> Ping me if you wanna have a Getter+Handoff skill :wink: because I already have one :stuck_out_tongue: :smile: CC: @Ricc :smile:
+> Ping me if you wanna have a Getter+Handoff skill :wink: because I already have one :stuck_out_tongue: :smile: CC: @Sam :smile:
 
 ## DMs
 
-Shorter, lowercase, often no punctuation. `hey hey` uncased. To Ricc (his manager) it's `Hey Ricc,` or `Hey Sir` / `Hey sir`.
+Shorter, lowercase, often no punctuation. `hey hey` uncased. To Sam (his manager) it's `Hey Sam,` or `Hey Sir` / `Hey sir`.
 
 > Hey Hey
-> I added a common locationMode widget that is used now in social threads and reviews,
+> I added a common viewMode widget that is used now in threads and reviews,
 > can you take a look :eyes:
 
 > Hey Hey
 > when you have time can you take a look on this
 > + the comments plz :pray:
 
-> Hey Cliff
+> Hey Chris
 > I reviewed your MR, you can ask claude to change the stuff I asked for,. then we can re review it
 
 > Hey sir,
@@ -166,24 +166,24 @@ Shorter, lowercase, often no punctuation. `hey hey` uncased. To Ricc (his manage
 
 > I finished my sections, take a look at morning, tell me your opinion
 
-> no no all good, Ricc said he will review it,
+> no no all good, Sam said he will review it,
 > and good to have 4 eyes, on the same product
 
 ## Escalating a blocker to his manager
 
-DM to Ricc, 2025-08-04. The most important shape in the corpus: what I did, then the real problem, then what I already tried, then evidence, then an explicit "this is FYI not a request".
+DM to Sam, 2025-08-04. The most important shape in the corpus: what I did, then the real problem, then what I already tried, then evidence, then an explicit "this is FYI not a request".
 
-> Hey Ricc,
+> Hey Sam,
 > I tried to unblock myself for while on the white-label topic.
 > • I did the logic part
 > • I also did some fixes to have the color picker inside of the app
 > both of them now in review. but this is not the problem.
 >
 > the real problem that I really don't know the design/product input on those questions .. so I don't know how to proceed further.
-> I sent a msg to Solqui, and a meeting invitation for tomorrow. but as an example we have been waiting on the designs for "directories warning" for almost 20 days now.
+> I sent a msg to Lea, and a meeting invitation for tomorrow. but as an example we have been waiting on the designs for "sync warning" for almost 20 days now.
 >
 > I'm just letting you know the updates. so that you are aligned with the progress.
-> thanks Ricc :pray:
+> thanks Sam :pray:
 
 Frustration is carried by the *fact* ("almost 20 days now"), never by tone.
 
@@ -213,13 +213,13 @@ A *planned* or minor absence keeps one light emoji and stays brief:
 >
 > we can arrange it next week, if you need me for the release; I will ask HR to move it to later dates :pray: :no-worries-v1:
 >
-> CC: @Cliff @Ricc
+> CC: @Chris @Sam
 
 ## Social / celebration
 
-> Congratulations @Ricc on your "Official" promotion! :yay:
+> Congratulations @Sam on your "Official" promotion! :yay:
 
-> Happy birthday to you mr @Hussein :tada:
+> Happy birthday to you mr @Omar :tada:
 
-> Congratulations to our Spanish Uberallers :es::tada:
-> Hard luck for our Argentinian Uberallers :face_holding_back_tears:
+> Congratulations to our Spanish teammates :es::tada:
+> Hard luck for our Argentinian teammates :face_holding_back_tears:
