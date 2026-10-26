@@ -1,7 +1,7 @@
 {
   "name": "dany-skills",
-  "description": "Dany's general-purpose Claude Code skills: plain-code readability rules, the grilling interview for plans, handoff docs, one-line answers, multi-session teaching, a guide to writing skills, a Haiku flavor pass that rewrites drafts in Dany's voice, Jira ticket writing (facts only, P0/P1/P2 QA scenarios), and evidence-first QA passes with mutation probes. Ships the read-only flavor, review-finder, review-verifier and qa-ticket agents.",
-  "version": "1.1.0",
+  "description": "Dany's general-purpose Claude Code skills: plain-code and Flutter style rules with a Haiku style check, the grilling interview, one-line answers, multi-session teaching, a guide to writing skills, a voice pass and clipboard helper for anything sent in Dany's name, Jira tickets and ticket+branch start, MR review with inline comments, MR author notes, diff explainers, standup fact-check, Slack sending, Sentry triage, evidence-first QA passes, notification tracing and a multi-ticket epic context template. Ships the read-only flavor, review-finder, review-verifier, mr-review-axis, qa-ticket and grafana-fact-checker agents.",
+  "version": "1.2.0",
   "author": {
     "name": "Dany Kamel"
   }

@@ -63,7 +63,7 @@ Don't manufacture typos. But if a rewrite comes back with every clause perfectly
 ## Structure
 
 - **Bullets are `•`, nested ones `◦`.** Not `-`.
-- **Numbered lists in Jira are `1-` `2-` `3-`**, not `1.`
+- **Numbered lists in Jira are `1.` `2.` `3.`**, which Jira renders as a list. Older comments used `1-`, which Jira leaves as plain text.
 - **`CC:` on its own line at the end** with the people who need visibility but no action, sometimes `CC: @X @Y FYI`. This is a consistent structural element, not decoration.
 - **Bold the term the decision hinges on**, not whole sentences.
 - Monospace blocks for tables and CLI output; he'll paste a rendered ASCII table rather than a markdown one.

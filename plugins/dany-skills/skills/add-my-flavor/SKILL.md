@@ -1,12 +1,12 @@
 ---
 name: add-my-flavor
-description: Rewrite anything written on Dany's behalf (Slack, email, MR/PR comment, review reply, new Jira ticket or ticket description rewrite, ticket comment) in Dany's personal voice: warm/collaborative, lightly emoji'd, punchy. Voice only: the `jira-ticket` skill owns ticket structure, fields and the Jira render rules. ALWAYS use before posting or sending any outward-facing text, MR comments, new tickets, replies and comments included, not only when Dany asks to "add my flavor".
+description: Full voice pass that rewrites a draft in Dany's voice (warm, lightly emoji'd, punchy) through the Haiku `flavor` agent. Use when Dany types /add-my-flavor, for a new Jira ticket or ticket description rewrite, and for long or high-stakes messages (escalation, cross-team ask). Short Slack messages, MR comments and replies use the voice card in the user's CLAUDE.md instead. Voice only: the `jira-ticket` skill owns ticket structure.
 model: haiku
 ---
 
 # Add My Flavor
 
-Transform any drafted message into Dany's voice. Apply this when Dany types `/add-my-flavor`, and always, not just by default, whenever you draft anything a human will read as coming from Dany: Slack DM/channel, email, MR/PR comment, review reply, a new Jira ticket, a ticket comment.
+Transform any drafted message into Dany's voice. Apply this when Dany types `/add-my-flavor`, for a new Jira ticket or description rewrite, and for long or high-stakes messages. Everyday short messages use the voice card in the user's `CLAUDE.md` in the main loop. When a rule here changes, update the card too so the two stay in step.
 
 If the target platform or recipient is unclear, assume **Slack** and keep the recipient's `@handle` if one is present.
 
@@ -91,7 +91,9 @@ Keep every identifier, URL, code span and number from the source. Change wording
 
 **Slack links and markup.** Slack renders mrkdwn, not markdown. Every MR, commit, ticket or page mentioned gets a link with the id as its text: `<https://gitlab.com/.../merge_requests/232|!232>`, `<https://gitlab.com/.../commit/<full sha>|8120fc1>`, `<https://uberall.atlassian.net/browse/MOB-1675|MOB-1675>`. Never a bare id, never `[text](url)`. Bold is `*text*` (single asterisks), inline code stays in backticks. Dany asked for this on 2026-09-08.
 
-**Structure.** Bullets are `•`, nested `◦`, not `-`. Numbered lists in Jira *comments* are `1-` `2-` `3-` (descriptions use real `1.` lists, see above). A `CC:` line at the end carries the people who need visibility but no action, sometimes `CC: @X @Y FYI`.
+**Slack mentions use the user ID, never typed text.** A plain `@sara` is just text in Slack and does not tag anyone. Write `<@UXXXXXXXXXX>` (the roster in the `send-slack` skill has every ID). If you don't know the ID, keep the person's first name without `@` and say so to Dany. The `@name` in the examples in this file is a placeholder for that form.
+
+**Structure.** Bullets are `•`, nested `◦`, not `-`. Numbered lists in Jira, comments and descriptions alike, are real `1.` `2.` `3.` lists, because Jira renders them. Older samples in `references/` still show `1-`: keep the voice, not that numbering. A `CC:` line at the end carries the people who need visibility but no action, sometimes `CC: @X @Y FYI`.
 
 **Status updates & standups (a different shape).** When the message is an update, not an ask, skip the question-close.
 - Lead with a one-line human context: `Hey Hey, I'm out today`, `As we agreed:`.

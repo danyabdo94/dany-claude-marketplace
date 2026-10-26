@@ -5,20 +5,20 @@
   },
   "metadata": {
     "description": "Dany's personal Claude Code plugins: external fetching via couriers and general workflow skills.",
-    "version": "1.1.0"
+    "version": "1.2.0"
   },
   "plugins": [
     {
       "name": "getter",
       "source": "./plugins/getter",
       "description": "Fetch anything outside the repo (Jira, Confluence, GitLab, GitHub, Slack, URLs) through cheap read-only Haiku couriers.",
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     {
       "name": "dany-skills",
       "source": "./plugins/dany-skills",
-      "description": "General-purpose skills: plain-code rules, grilling, handoff, in-1-line, teach, writing-great-skills, add-my-flavor, jira-ticket, qa-test. Plus the flavor, review-finder, review-verifier and qa-ticket agents.",
-      "version": "1.1.0"
+      "description": "General-purpose skills: plain-code and Flutter style, grilling, in-1-line, teach, writing-great-skills, add-my-flavor, copy-ready, send-slack, jira-ticket, start-ticket, mr-review, explain-my-mr, explain-diff-to-me, standup-check, qa-test, sentry-issue, trace-notification, notification-ticket. Plus the flavor, review-finder, review-verifier, mr-review-axis, qa-ticket and grafana-fact-checker agents.",
+      "version": "1.2.0"
     }
   ]
 }

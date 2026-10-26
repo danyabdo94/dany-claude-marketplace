@@ -8,7 +8,7 @@ first, then put the voice on. Order matters: the voice adds emoji, bold facts an
 
 Dany's habits are not tells. Keep them even when a rule below would flag them:
 `Hey Hey` greetings, 1-3 emoji, `:eyes:` / `:pray:`, `WDYT?` / `Okay? :eyes:` /
-`shall we` closers, bold on the fact a skimmer needs, `•` bullets, `1-` lists in Jira
+`shall we` closers, bold on the fact a skimmer needs, `•` bullets, `1.` lists in Jira
 comments, `CC:` lines, the sentence mechanics in `voice-markers.md`.
 
 ## Plain international English
